@@ -8,6 +8,17 @@ library(GGally)
 library(directlabels)
 library(ggthemes)
 
+
+libs <- c('colorspace','plotly','pairsD3','GGally','directlabels','ggthemes')
+
+#install packages
+for (lib in libs) {
+  if (!require(lib))
+  {
+    install.packages(lib)
+  }
+}
+
 #setwd("/Users/Alice/workdata/data_viz_hw3")
 data <- read.csv("dataset_Facebook.csv",sep = ";")
 
@@ -74,7 +85,8 @@ server <- function(input, output) {
    
    #plot for the 2nd tab
    output$matrixplot <- renderPairsD3(
-     pairsD3(data[data$Post.Month == input$month,c("like","comment","share","Post.Weekday")],group=data[data$Post.Month == input$month,'Post.Weekday']))
+     pairsD3(data[data$Post.Month == input$month,c("like","comment","share","Post.Weekday")],
+             group=data[data$Post.Month == input$month,'Post.Weekday']))
 
    #plot for the 3rd tab
    output$parellelPlot <- renderPlot({
@@ -82,7 +94,10 @@ server <- function(input, output) {
      grouped <- aggregate(subset, list(subset$Post.Weekday), mean)
      colnames(grouped)[1] <- 'Weekday'
      ggparcoord(data = grouped, columns = 2:4, groupColumn = 1, scale = 'uniminmax') +
-       theme_calc()+ scale_colour_calc(guide=FALSE) +  theme(axis.title = element_blank())+ ggtitle("Average # of Like, Comment and Share by Weekday") + geom_dl(aes(label = Weekday), method = list(dl.combine("first.points", "last.points"), cex = 0.8))
+       theme_calc()+ scale_colour_calc(guide=FALSE) +  
+       theme(axis.title = element_blank()) + 
+       ggtitle("Average # of Like, Comment and Share by Weekday") + 
+       geom_dl(aes(label = Weekday), method = list(dl.combine("first.points", "last.points"), cex = 0.8))
    })
    }
 
