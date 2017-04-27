@@ -8,14 +8,13 @@ library(GGally)
 library(directlabels)
 library(ggthemes)
 
-
+#check and install required packages
 libs <- c('colorspace','plotly','pairsD3','GGally','directlabels','ggthemes')
 
-#install packages
 for (lib in libs) {
-  if (!require(lib))
+  if (!require(lib,character.only = TRUE))
   {
-    install.packages(lib)
+    install.packages(lib,dep=TRUE)
   }
 }
 
