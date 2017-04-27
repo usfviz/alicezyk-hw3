@@ -1,3 +1,3 @@
 # alicezyk-hw3
-hw3 created for alicezyk
+# how to run
 shiny::runGitHub("alicezyk-hw3", "usfviz", subdir = "")
